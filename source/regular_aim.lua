@@ -12,16 +12,6 @@ local function isPlayer(child)
     end
 end
 
-local function getModule(m)
-    for i, v in pairs(getloadedmodules()) do
-        if v.Name == m then
-            return require(v), v
-        end
-    end
-end
-
-local cameraModule = getModule("Camera")
-
 local function PlayerInfo(player)
     return {
         Username = player.Head.Nametag.tag.Text
@@ -46,10 +36,9 @@ local function GetPlayer()
         local info = PlayerInfo(v)
 
         if localPlayer.Name ~= info.Username and game.Players:FindFirstChild(info.Username) ~= nil then
-            local screenpoint, visible = viewportPoint(v:WaitForChild("HumanoidRootPart", math.huge).Position)
+            local sp, visible = viewportPoint(v:WaitForChild("HumanoidRootPart", math.huge).Position)
             local mouse_loc = UserInputService:GetMouseLocation()
-            local distance =
-                (Vector2.new(mouse_loc.X, mouse_loc.Y) - Vector2.new(screenpoint.X, screenpoint.Y)).Magnitude
+            local distance = (Vector2.new(mouse_loc.X, mouse_loc.Y) - Vector2.new(sp.X, sp.Y)).Magnitude
 
             if last_distance > distance and visible then
                 target = v
@@ -78,13 +67,13 @@ end)
 
 local default_sens = 0.20015
 
-local deltSensitivity = default_sens / UserGameSettings.MouseSensitivity
+local delt_sensitivity = default_sens / UserGameSettings.MouseSensitivity
 local old = UserInputService.MouseDeltaSensitivity
 
 UserGameSettings:GetPropertyChangedSignal("MouseSensitivity"):Connect(function()
     if _G.Aimbot.Enabled then
-        deltSensitivity = default_sens / UserGameSettings.MouseSensitivity
-        UserInputService.MouseDeltaSensitivity = deltSensitivity
+        delt_sensitivity = default_sens / UserGameSettings.MouseSensitivity
+        UserInputService.MouseDeltaSensitivity = delt_sensitivity
     end
 end)
 

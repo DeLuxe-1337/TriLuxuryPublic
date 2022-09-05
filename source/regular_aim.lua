@@ -4,14 +4,6 @@ local network = require(localPlayer.PlayerScripts.Client.Network)
 local UserInputService = game:GetService("UserInputService")
 local UserGameSettings = UserSettings():GetService("UserGameSettings")
 
-local function isPlayer(child)
-    if child:IsA("Model") and child.Name == "Model" and child:FindFirstChild("Humanoid") then
-        return true
-    else
-        return false
-    end
-end
-
 local function PlayerInfo(player)
     return {
         Username = player.Head.Nametag.tag.Text
